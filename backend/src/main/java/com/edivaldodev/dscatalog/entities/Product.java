@@ -25,6 +25,7 @@ public class Product implements Serializable{
 	private Long id;
 	private String name;
 	
+	//Possibilitar entrada de textos longos.
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	private Double price;
