@@ -6,15 +6,21 @@ import ProductCard from './components/ProductCard';
 import './styles.scss';
 
 const Catalog = () => {
-
+    /* 
+       P2 - Quando a lista estiver disponível popular um estado no componente
+       e listar os produtos dinamicamente.
+    */
    const [productsResponse, setProductsResponse] = useState<ProductsResponse>();
     console.log(productsResponse);
+
+    //O useEfect() consegue acessar o siclo de vida do compoente.
+    //P1 - Buscar a lista de produtos assim que o componente iniciar
+    //o .then informa que, após os dados serem carregados serão mostrados no console.
     useEffect(() => {
         const params = {
             page: 0,
-            linesPerPage: 3
+            linesPerPage: 10
         }
-
         makeRequest({ url: '/products', params })
         .then(response => setProductsResponse(response.data));
     }, []);
@@ -26,8 +32,8 @@ const Catalog = () => {
             </h1>
             <div className="catalog-products">
                 {productsResponse?.content.map(product => (
-                    <Link to="/products/1" key={product.id}>
-                        <ProductCard />
+                    <Link to={`/products/${product.id}`} key={product.id}>
+                        <ProductCard product ={product}/>
                     </Link>
                 ))}
             </div>
