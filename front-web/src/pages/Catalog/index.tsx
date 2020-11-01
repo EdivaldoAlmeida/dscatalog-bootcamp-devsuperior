@@ -5,6 +5,7 @@ import { makeRequest } from 'core/utils/request';
 import ProductCard from './components/ProductCard';
 import ProductCardLoader from './components/Loaders/ProductCardLoader'
 import './styles.scss';
+import Pagination from 'core/components/Pagination';
 
 const Catalog = () => {
     /* 
@@ -13,13 +14,14 @@ const Catalog = () => {
     */
    const [productsResponse, setProductsResponse] = useState<ProductsResponse>();
    const [isLoading, setIsLoading] = useState(false);
+   const [activePage, setActivePage] = useState(0);
 
     //O useEfect() consegue acessar o siclo de vida do compoente.
     //P1 - Buscar a lista de produtos assim que o componente iniciar
     //o .then informa que, após os dados serem carregados serão mostrados no console.
     useEffect(() => {
         const params = {
-            page: 0,
+            page: activePage,
             linesPerPage: 12
         }
         //Inicia o loader
@@ -30,7 +32,7 @@ const Catalog = () => {
             //Finaliza o loader
             setIsLoading(false);
         })
-    }, []);
+    }, [activePage]);
     return (
         <div className="catalog-container">
             <h1 className="catalog-title">
@@ -45,6 +47,13 @@ const Catalog = () => {
                 ))
             ) }
             </div>
+            {productsResponse &&  (
+            <Pagination
+                totalPage={productsResponse.totalPages}
+                activePage={activePage}
+                onChange={page => setActivePage(page)} 
+            />
+            )}
         </div>
     )
 }
